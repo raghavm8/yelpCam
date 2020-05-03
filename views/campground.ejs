@@ -1,0 +1,10 @@
+<% include header %>
+<h1>this is camp ground page </h1>
+
+<% campground.forEach(function(cp){ %>
+    <div>
+        <h4><%= cp.name %></h4>
+        <img src = "<%= cp.image %>" >
+    </div>
+<% }) %>
+<% include footer %>
