@@ -25,25 +25,8 @@
                 </div>
             </div>    
         </nav>
-        <div class="container">
-            <h1 style="text-align: center;">create a new campground</h1>
-            <div style="width: 40%; margin: 25px auto;"> 
-                <form  action="/campground" method="POST">
-                    <div class="form-group" >
-                        <input class="form-control" type="text" name="name" placeholder="name" >
-                    </div>
-                    <div class="form-group" >
-                        <input class="form-control" type="text" name="image" placeholder="image url" >
-                    </div>
-                    <div class="form-group" >
-                        <input class="form-control" type="text" name="description" placeholder="description" >
-                    </div>
-                    <div class="form-group" >
-                        <button class="btn btn-lg btn-default bg-primary btn-block">submit</button><br>
-                    </div>
-                </form>
-                <a href="/campground">go back to list of campground</a>
-            </div>
-        </div>
+        <h1><%= campground.name%></h1>
+        <img src="<%= campground.image%>">
+        <p><%= campground.description %></p>
     </body>
-</html>
+</html>    

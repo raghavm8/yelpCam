@@ -10,13 +10,15 @@ mongoose.connect("mongodb://localhost/yelp",{useNewUrlParser: true, useUnifiedTo
 
 var cgShchema = new mongoose.Schema({
     name: String,
-    image: String
+    image: String,
+    description: String
 });
 var Campground = mongoose.model('Campground',cgShchema);
 
 /*Campground.create({
-    name : "two",
-     image : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkNrnxCrnSYzkYakAertDUA0-niLEM5GoAvoTpmMaJ8sEW2mT2mg&s"
+    name : "four",
+     image : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkNrnxCrnSYzkYakAertDUA0-niLEM5GoAvoTpmMaJ8sEW2mT2mg&s",
+     description: 'this is a new campground'
 },(err,campground)=>{
     if(err)
     {
@@ -35,29 +37,52 @@ app.get('/',function(req,res){
     console.log('landing route')
 }); 
 
+// index rouute which shows all the data
 app.get('/campground',function(req,res){
     Campground.find({},(err,all)=>{
         if(err){
             console.log(err);
         }
         else{
-             res.render('campground',{campground : all})
+             res.render('index',{campground : all})
         }
     })
 })
 
+// create route to create a new data
 app.post('/campground',function(req,res){
     var name = req.body.name;
     var image = req.body.image;
-    var newCamp = {name:name , image:image}
+    var desc = req.body.description;
+    var newCamp = {name:name , image:image, description:desc}
     Campground.create(newCamp,(err,newCreate)=>{
-        res.redirect('/campground');
+        if(err){
+            console.log(err)
+        }
+        else{
+            res.redirect('/campground');
+        }
     })
 })
 
+// new route to get the form for creating new data
 app.get('/campground/new',function(req,res){
-    res.render('new');
+     res.render('new');
 })
+
+// show route to get a particular data in detail
+app.get('/campground/:id',function(req,res){
+    var i = req.params.id
+    Campground.findById(i,function(err,found){
+        if(err){
+            console.log(err)
+        }else{
+            res.render('show',{campground:found})
+        }
+    })
+})
+
+
 
 app.listen(PORT, () => {
     console.log('server has started');
