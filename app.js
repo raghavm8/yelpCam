@@ -3,34 +3,15 @@ var bodyParser = require('body-parser');
 var app = express();
 var mongoose = require('mongoose');
 var PORT = 4000;
+var Campground = require('./models/campground');
+var seed = require('./seeds');
+var Comment = require('./models/comment')
 
-app.use(bodyParser.urlencoded({ extended: true }))
-
+seed();
+app.use(bodyParser.urlencoded({ extended: true }));
 mongoose.connect("mongodb://localhost/yelp",{useNewUrlParser: true, useUnifiedTopology: true});
-
-var cgShchema = new mongoose.Schema({
-    name: String,
-    image: String,
-    description: String
-});
-var Campground = mongoose.model('Campground',cgShchema);
-
-/*Campground.create({
-    name : "four",
-     image : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkNrnxCrnSYzkYakAertDUA0-niLEM5GoAvoTpmMaJ8sEW2mT2mg&s",
-     description: 'this is a new campground'
-},(err,campground)=>{
-    if(err)
-    {
-        console.log(err);
-    }
-    else{
-        console.log('data added');
-        console.log(campground);
-    }
-})*/
-
 app.set('view engine','ejs');
+app.use(express.static(__dirname + '/public'));
 
 app.get('/',function(req,res){
     res.render('landing')
@@ -44,7 +25,7 @@ app.get('/campground',function(req,res){
             console.log(err);
         }
         else{
-             res.render('index',{campground : all})
+             res.render('campgrounds/index',{campground : all})
         }
     })
 })
@@ -67,22 +48,68 @@ app.post('/campground',function(req,res){
 
 // new route to get the form for creating new data
 app.get('/campground/new',function(req,res){
-     res.render('new');
+     res.render('campgrounds/new');
 })
 
 // show route to get a particular data in detail
 app.get('/campground/:id',function(req,res){
     var i = req.params.id
-    Campground.findById(i,function(err,found){
+    Campground.findById(i).populate("comments").exec(function(err,found){
         if(err){
             console.log(err)
         }else{
-            res.render('show',{campground:found})
+            //console.log(found)
+            res.render('campgrounds/show',{campground:found})
         }
     })
 })
 
+// this is the comments form 
+app.get('/campground/:id/comments/new',function(req,res){
+    Campground.findById(req.params.id,function(err,cg){
+        if(err)
+        {
+            console.log(err)
+        }
+        else
+        {
+            res.render('comments/new',{campground:cg})
+        }
+    })
+})
 
+app.post("/campground/:id/comments",function(req,res){
+    // look campground using id
+    Campground.findById(req.params.id,function(err,cg){
+        if(err)
+        {
+            console.log(err)
+            res.redirect('/campgrounds')
+        }
+        else
+        {
+            Comment.create(req.body.comment,function(err,comment){
+                if(err)
+                {
+                    console.log(err);
+                }
+                else
+                {
+                    cg.comments.push(comment)
+                    cg.save()
+
+                    res.redirect('/campground/' + cg._id);
+                }
+            })
+        }
+    })
+    // create  a new comment
+
+    // connect new comment to campground
+
+    // redirect campground show page
+
+})
 
 app.listen(PORT, () => {
     console.log('server has started');

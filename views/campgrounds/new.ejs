@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>YELPCAM</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
+    </head>
+    <body>
+        <nav class="nav navbar navbar-default bg-dark">    
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="nav-brand" href="/">YELPCAM</a>
+                </div>
+                <div class="navbar navbar-expand-sm navbar-right">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">SignUp</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">LogIn</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">LogOut</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>    
+        </nav>
+        <div class="container">
+            <h1 style="text-align: center;">create a new campground</h1>
+            <div style="width: 40%; margin: 25px auto;"> 
+                <form  action="/campground" method="POST">
+                    <div class="form-group" >
+                        <input class="form-control" type="text" name="name" placeholder="name" >
+                    </div>
+                    <div class="form-group" >
+                        <input class="form-control" type="text" name="image" placeholder="image url" >
+                    </div>
+                    <div class="form-group" >
+                        <input class="form-control" type="text" name="description" placeholder="description" >
+                    </div>
+                    <div class="form-group" >
+                        <button class="btn btn-lg btn-default bg-primary btn-block">submit</button><br>
+                    </div>
+                </form>
+                <a href="/campground">go back to list of campground</a>
+            </div>
+        </div>
+    </body>
+</html>

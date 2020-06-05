@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>YELPCAM</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
+    </head>
+    <body>
+        <nav class="nav navbar navbar-default bg-dark">    
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="nav-brand" href="/">YELPCAM</a>
+                </div>
+                <div class="navbar navbar-expand-sm navbar-right">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">SignUp</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">LogIn</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">LogOut</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>    
+        </nav><br/>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <p class="lead">Yelpcam</p>
+                    <div class="list-group">
+                        <li class="list-group-item active">Item 1</li>
+                        <li class="list-group-item">Item 2</li>
+                        <li class="list-group-item">Item 3</li>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="thumbnail">
+                        <img class="img-responsive" src="<%= campground.image %>" />
+                        <div class="caption-full"    >
+                            <h4 class="float-right">Price=100</h4>
+                            <a href=""><h4><%= campground.name%></h4></a>
+                            <p><%= campground.description %></p>
+                        </div>
+                    </div>
+                    <div class="well">
+                        <div class="text-right">
+                            <a class="btn btn-info" href="/campground/<%= campground._id%>/comments/new">Add comment</a>
+                        </div>
+                        <hr/>
+                        <% campground.comments.forEach(function(comment){ %>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <strong><%= comment.author %></strong>
+                                    <span class="float-right">10 days ago</span>
+                                    <p>
+                                        - <%= comment.text %>
+                                    </p>
+                                </div>
+                            </div>
+                            
+                       <% }) %>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+        </p>
+        </p>
+    </body>
+</html>    
