@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>YELPCAM</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    </head>
+    <body>
+        <nav class="nav navbar navbar-default bg-dark">    
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="nav-brand" href="/">YELPCAM</a>
+                </div>
+                <div class="navbar navbar-expand-sm navbar-right">
+                    <ul class="navbar-nav">
+                        <% if(!currUser) { %>
+                            <li class="nav-item"><a class="nav-link" href="/register">SignUp</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/login">LogIn</a></li>
+                          <% } else { %>
+                            <li class="nav-item"><a class="nav-link" href="/logout">LogOut</a></li>
+                          <% } %>
+                    </ul>
+                </div>
+            </div>    
+        </nav>
+        <div><br/>
+            <form action="login" method="POST">
+                <input type="text" name="username" placeholder="username">
+                <input type="password" name="password" placeholder="password">
+                <button>Log In</button>
+            </form>
+        </div>
+    </body>
+</html>
