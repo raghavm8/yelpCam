@@ -16,6 +16,7 @@
                         <li class="nav-item"><a class="nav-link" href="/register">SignUp</a></li>
                         <li class="nav-item"><a class="nav-link" href="/login">LogIn</a></li>
                       <% } else { %>
+                        <li class="nav-item"><a class="nav-link" href="#">Signed In as <%= currUser.username %></a></li>
                         <li class="nav-item"><a class="nav-link" href="/logout">LogOut</a></li>
                       <% } %>
                     </ul>
@@ -39,6 +40,13 @@
                             <h4 class="float-right">Price=100</h4>
                             <a href=""><h4><%= campground.name%></h4></a>
                             <p><%= campground.description %></p>
+                            <p><em>Added by <%= campground.author.username %></em></p>
+                            <% if( currUser && campground.author.id.equals(currUser._id) ){ %>
+                                <a class="btn btn-warning btn-xs" href="/campground/<%= campground._id %>/edit">Edit</a>
+                                <form action="/campground/<%= campground._id %>?_method=DELETE" method="POST" id="delete-form">
+                                    <button class="btn btn-danger btn-xs" >Delete</button>
+                                </form>
+                            <% } %>
                         </div>
                     </div>
                     <div class="well">
@@ -49,11 +57,19 @@
                         <% campground.comments.forEach(function(comment){ %>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <strong><%= comment.author %></strong>
+                                    <strong><%= comment.author.username %></strong>
                                     <span class="float-right">10 days ago</span>
                                     <p>
                                         - <%= comment.text %>
                                     </p>
+                                    <% if( currUser && comment.author.id.equals(currUser._id) ){ %>
+                                        <a class="btn btn-warning" href="/campground/<%= campground._id %>/comments/<%= comment._id %>/edit">
+                                            Edit Comment
+                                        </a>
+                                        <form action="/campground/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST" id="delete-form">
+                                            <button class="btn btn-danger">Delete</button>
+                                        </form>
+                                    <% } %>
                                 </div>
                             </div>
                             

@@ -25,17 +25,17 @@
             </div>    
         </nav>
         <div class="container">
-            <h1 style="text-align: center;">create a new campground</h1>
+            <h1 style="text-align: center;">Update <%= campground.name %></h1>
             <div style="width: 40%; margin: 25px auto;"> 
-                <form  action="/campground" method="POST">
+                <form  action="/campground/<%= campground._id %>/?_method=PUT" method="POST">
                     <div class="form-group" >
-                        <input class="form-control" type="text" name="name" placeholder="name" >
+                        <input class="form-control" type="text" name="campground[name]" value="<%= campground.name %>" >
                     </div>
                     <div class="form-group" >
-                        <input class="form-control" type="text" name="image" placeholder="image url" >
+                        <input class="form-control" type="text" name="campground[image]" value="<%= campground.image %>" >
                     </div>
                     <div class="form-group" >
-                        <input class="form-control" type="text" name="description" placeholder="description" >
+                        <input class="form-control" type="text" name="campground[description]" value="<%= campground.description %>" >
                     </div>
                     <div class="form-group" >
                         <button class="btn btn-lg btn-default bg-primary btn-block">submit</button><br>

@@ -9,3 +9,7 @@
 .thumbnail .caption-pull{
         padding: 9px;
 }
+
+#delete-form{
+    display: inline;
+}

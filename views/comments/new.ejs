@@ -15,6 +15,7 @@
                         <li class="nav-item"><a class="nav-link" href="/register">SignUp</a></li>
                         <li class="nav-item"><a class="nav-link" href="/login">LogIn</a></li>
                       <% } else { %>
+                        <li class="nav-item"><a class="nav-link" href="#">Signed In as <%= currUser.username %></a></li>
                         <li class="nav-item"><a class="nav-link" href="/logout">LogOut</a></li>
                       <% } %>
                     </ul>
@@ -22,12 +23,9 @@
             </div>    
         </nav>
         <div class="container">
-            <h1 style="text-align: center;">Add a new component to <%= campground.name %></h1>
+            <h1 style="text-align: center;">Add a new comment to <%= campground.name %></h1>
             <div style="width: 40%; margin: 25px auto;"> 
                 <form  action="/campground/<%= campground._id%>/comments"method="POST">
-                    <div class="form-group" >
-                        <input class="form-control" type="comment[text]" name="comment[author]" placeholder="name" >
-                    </div>
                     <div class="form-group" >
                         <input class="form-control" type="text" name="comment[text]" placeholder="text" >
                     </div>
