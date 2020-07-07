@@ -13,7 +13,7 @@ router.get('/campground/:id/comments/new',middleware.isLoggedIn,function(req,res
         }
         else
         {
-            res.render('comments/new',{campground:cg,currUser:req.user})
+            res.render('comments/new',{campground:cg,currUser:req.user,error:req.flash("error"),success:req.flash('success')})
         }
     })
 })
@@ -25,6 +25,7 @@ router.post("/campground/:id/comments",middleware.isLoggedIn,function(req,res){
         if(err)
         {
             console.log(err)
+            req.flash('error',"Operation failed");
             res.redirect('/campgrounds')
         }
         else
@@ -42,6 +43,7 @@ router.post("/campground/:id/comments",middleware.isLoggedIn,function(req,res){
                     comment.save();
                     cg.comments.push(comment)
                     cg.save()
+                    req.flash('success',"Successfully Added your comment!!!!");
                     res.redirect('/campground/' + cg._id);
                 }
             })
@@ -56,7 +58,7 @@ router.get('/campground/:id/comments/:comment_id/edit',middleware.checkComment,f
             res.redirect('back');
         }
         else{
-            res.render('comments/edit',{campground_id : req.params.id,currUser:req.user,comment:found});
+            res.render('comments/edit',{campground_id : req.params.id,currUser:req.user,comment:found,error:req.flash("error"),success:req.flash('success')});
         }
     })   
 })
@@ -65,9 +67,11 @@ router.get('/campground/:id/comments/:comment_id/edit',middleware.checkComment,f
 router.put('/campground/:id/comments/:comment_id',middleware.checkComment,function(req,res){
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment,function(err,updated){
         if(err){
+            req.flash('error',"Operation failed");
             res.redirect('back');
         }
         else{
+            req.flash('success',"Comment Updated !!!!");
             res.redirect('/campground/'+req.params.id);  
         }
     })
@@ -77,48 +81,14 @@ router.put('/campground/:id/comments/:comment_id',middleware.checkComment,functi
 router.delete('/campground/:id/comments/:comment_id',middleware.checkComment,function(req,res){
     Comment.findByIdAndRemove(req.params.comment_id,function(err,deleted){
         if(err){
+            req.flash('error',"Operation failed");
             res.redirect('back');
         }
         else{
+            req.flash('success',"Comment Deleted !!!!");
             res.redirect('/campground/'+req.params.id);  
         }
     })
 })
-
-//middleware
-/*function isLoggedIn(req,res,next){
-    if(req.isAuthenticated()){
-        return next();
-    }
-    else
-    {
-        res.redirect('/login')
-    }
-}
-*/
-/*function checkComment (req,res,next)
-{
-    if(req.isAuthenticated())
-    {
-        Comment.findById(req.params.comment_id,function(err,found){
-            if(err)
-            {
-                res.send("back");
-                console.log(err);
-            }
-            else{
-               // console.log('RAghav 2')
-               if(found.author.id.equals(req.user.id))
-                    next();
-                else{
-                   res.redirect("back")
-                }
-            }
-        }) 
-    }
-    else{
-       res.redirect("back");
-    }
-}*/
 
 module.exports = router;

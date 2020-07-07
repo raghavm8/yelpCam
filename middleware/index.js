@@ -9,7 +9,8 @@ middleWare.isOwned = function(req,res,next){
         Campground.findById(req.params.id,function(err,found){
             if(err)
             {
-                res.send("back");
+                req.flash('error','Campground not found !!!!');
+                res.redirect("back");
                 console.log(err);
             }
             else{
@@ -17,12 +18,14 @@ middleWare.isOwned = function(req,res,next){
                if(found.author.id.equals(req.user.id))
                     next();
                 else{
+                    req.flash('error','Not permitted !!!!');
                    res.redirect("back")
                 }
             }
         }) 
     }
     else{
+        req.flash('error',"You need to be logged in !!!!")
        res.redirect("back");
     }
 }
@@ -34,6 +37,7 @@ middleWare.checkComment = function(req,res,next)
         Comment.findById(req.params.comment_id,function(err,found){
             if(err)
             {
+                req.flash('error',"Operation failed");
                 res.send("back");
                 console.log(err);
             }
@@ -42,12 +46,14 @@ middleWare.checkComment = function(req,res,next)
                if(found.author.id.equals(req.user.id))
                     next();
                 else{
+                    req.flash('error',"You are not permitted !!!!");
                    res.redirect("back")
                 }
             }
         }) 
     }
     else{
+        req.flash('error',"you need to be logged in !!!!");
        res.redirect("back");
     }
 }

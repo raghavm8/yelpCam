@@ -3,10 +3,10 @@
     <head>
         <title>YELPCAMP</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
+        <link rel="stylesheet" type="text/css" href="/stylesheets/land.css">
     </head>
     <body> 
-        <nav class="nav navbar navbar-default bg-dark">    
+       <!-- <nav class="nav navbar navbar-default bg-dark">    
             <div class="container-fluid">
                 <div class="navbar-header">
                     <a class="nav-brand" href="/">YELPCAM</a>
@@ -22,9 +22,29 @@
                     </ul>
                 </div>
             </div>    
-        </nav>       
-        <h1>this is the landing page</h1>
-        <p>page is the landing page</p>
-        <a href="/campground">view all the camp sites</a>
+        </nav>  -->           
+        <div class="container">
+            <% if(error && error.length > 0){ %>
+                <div class="alert alert-danger" role="alert">
+                    <%= error %>
+                </div>
+            <% } %>
+            <% if(success && success.length > 0){ %>
+                <div class="alert alert-success" role="alert">
+                    <%= success %>
+                </div>
+            <% } %>
+        </div>
+        <div id="landing-header">
+ 		    <h1>Welcome to YelpCamp!</h1>
+		    <a href="/campground" class="btn btn-lg btn-success">View All Campgrounds</a>
+        </div>   
+        <ul class="slideshow">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
     </body>
 </html>

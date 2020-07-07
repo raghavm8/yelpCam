@@ -10,7 +10,7 @@ router.get('/campground',function(req,res){
             console.log(err);
         }
         else{
-             res.render('campgrounds/index',{campground : all,currUser:req.user})
+             res.render('campgrounds/index',{campground : all,currUser:req.user,error:req.flash("error"),success:req.flash('success')})
         }
     })
 })
@@ -19,17 +19,19 @@ router.get('/campground',function(req,res){
 router.post('/campground',middleware.isLoggedIn,function(req,res){
     var name = req.body.name;
     var image = req.body.image;
+    var price = req.body.price;
     var desc = req.body.description;
     var author = {
         id : req.user._id,
         username : req.user.username
     }
-    var newCamp = {name:name , image:image, description:desc,author:author}
+    var newCamp = {name:name ,price:price , image:image, description:desc,author:author}
     Campground.create(newCamp,(err,newCreate)=>{
         if(err){
-            console.log(err)
+            req.flash('error',"Operation failed !!!! = " + err.message);
         }
         else{
+            req.flash('success',"campground added successfully");
             res.redirect('/campground');
         }
     })
@@ -37,7 +39,7 @@ router.post('/campground',middleware.isLoggedIn,function(req,res){
 
 // new route to get the form for creating new data
 router.get('/campground/new',middleware.isLoggedIn,function(req,res){
-     res.render('campgrounds/new',{currUser:req.user});
+     res.render('campgrounds/new',{currUser:req.user,error:req.flash("error"),success:req.flash('success')});
 })
 
 // show route to get a particular data in detail
@@ -48,7 +50,7 @@ router.get('/campground/:id',function(req,res){
             console.log(err)
         }else{
             //console.log(found)
-            res.render('campgrounds/show',{campground:found,currUser:req.user})
+            res.render('campgrounds/show',{campground:found,currUser:req.user,error:req.flash("error"),success:req.flash('success')})
         }
     })
 })
@@ -58,12 +60,13 @@ router.get('/campground/:id/edit',middleware.isOwned,function(req,res){
    
         Campground.findById(req.params.id,function(err,found){
             if(err)
-            {
+            {   
+                req.flash('error',"Operation failed");
                 console.log(err);
             }
             else{
                // console.log('RAghav 2')
-                    res.render('campgrounds/edit',{campground:found,currUser:req.user});
+                    res.render('campgrounds/edit',{campground:found,currUser:req.user,error:req.flash("error"),success:req.flash('success')});
             }
         }) 
     })  
@@ -73,9 +76,11 @@ router.put('/campground/:id',middleware.isOwned,function(req,res){
     // find and update the correct camp
     Campground.findByIdAndUpdate(req.params.id,req.body.campground,function(err,updated){
         if(err){
+            req.flash('error',"Operation failed");
             res.redirect('/campground');
         }
         else{
+            req.flash('success','Campground Updated !!!!');
             res.redirect('/campground/' + req.params.id);
         }
     })
@@ -86,49 +91,15 @@ router.put('/campground/:id',middleware.isOwned,function(req,res){
 router.delete('/campground/:id',middleware.isOwned,function(req,res){
     Campground.findByIdAndRemove(req.params.id,function(err,deleted){
         if(err){
+            req.flash('error',"Operation failed");
             res.redirect('/campground')
         }  
         else
         {
+            req.flash('success','Campground deleted !!!!');
             res.redirect('/campground')
         }
     })
 })
-
-//middleware
-/*function isLoggedIn(req,res,next){
-    if(req.isAuthenticated()){
-        return next();
-    }
-    else
-    {
-        res.redirect('/login')
-    }
-}*/
-
-/*function isOwned (req,res,next)
-{
-    if(req.isAuthenticated())
-    {
-        Campground.findById(req.params.id,function(err,found){
-            if(err)
-            {
-                res.send("back");
-                console.log(err);
-            }
-            else{
-               // console.log('RAghav 2')
-               if(found.author.id.equals(req.user.id))
-                    next();
-                else{
-                   res.redirect("back")
-                }
-            }
-        }) 
-    }
-    else{
-       res.redirect("back");
-    }
-}*/
 
 module.exports = router;

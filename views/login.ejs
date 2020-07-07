@@ -22,8 +22,19 @@
                 </div>
             </div>    
         </nav>
+        <div class="container">
+            <% if(error && error.length>0){ %>
+                <div class="alert alert-danger" role="alert">
+                    <%= error %>
+                </div>
+            <% } %>
+            <% if(success && success.length>0){ %>
+                <div class="alert alert-success" role="alert">
+                    <%= success %>
+                </div>
+            <% } %>
+        </div>
         <div><br/>
-            <h1><%= message %></h1>
             <form action="login" method="POST">
                 <input type="text" name="username" placeholder="username">
                 <input type="password" name="password" placeholder="password">

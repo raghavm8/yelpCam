@@ -24,6 +24,18 @@
             </div>    
         </nav><br/>
         <div class="container">
+            <% if(error && error.length>0){ %>
+                <div class="alert alert-danger" role="alert">
+                    <%= error %>
+                </div>
+            <% } %>
+            <% if(success && success.length>0){ %>
+                <div class="alert alert-success" role="alert">
+                    <%= success %>
+                </div>
+            <% } %>
+        </div>
+        <div class="container">
             <div class="row">
                 <div class="col-md-3">
                     <p class="lead">Yelpcam</p>
@@ -37,7 +49,7 @@
                     <div class="thumbnail">
                         <img class="img-responsive" src="<%= campground.image %>" />
                         <div class="caption-full"    >
-                            <h4 class="float-right">Price=100</h4>
+                            <h4 class="float-right">Rs.<%= campground.price%>/per night</h4>
                             <a href=""><h4><%= campground.name%></h4></a>
                             <p><%= campground.description %></p>
                             <p><em>Added by <%= campground.author.username %></em></p>

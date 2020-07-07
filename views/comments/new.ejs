@@ -23,6 +23,18 @@
             </div>    
         </nav>
         <div class="container">
+            <% if(error && error.length>0){ %>
+                <div class="alert alert-danger" role="alert">
+                    <%= error %>
+                </div>
+            <% } %>
+            <% if(success && success.length>0){ %>
+                <div class="alert alert-success" role="alert">
+                    <%= success %>
+                </div>
+            <% } %>
+        </div>
+        <div class="container">
             <h1 style="text-align: center;">Add a new comment to <%= campground.name %></h1>
             <div style="width: 40%; margin: 25px auto;"> 
                 <form  action="/campground/<%= campground._id%>/comments"method="POST">
